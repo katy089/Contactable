@@ -1,7 +1,8 @@
-// import DOMHandler from "./scripts/dom-handler.js";
+import DOMHandler from "./scripts/dom-handler.js";
 import { BASE_URI, tokenKey } from "./scripts/config.js";
 import apiFetch from "./scripts/services/api-fetch.js";
 import { login, logout } from "./scripts/services/session-services.js";
+import {CreateUser} from "./scripts/pages/sing-up.js"
 import {
   createContact,
   showContactList,
@@ -11,18 +12,21 @@ import {
 } from "./scripts/services/contacts-services.js";
 import { createUser } from "./scripts/services/user-services.js";
 
-const credentials = { email: "testing@mail.com", password: "123456" };
-// login(credentials);
-// logout();
+async function init() {
+  try {
+    const token = sessionStorage.getItem(tokenKey);
 
-const contact = {
-  name: "Lucas",
-  email: "lucas@mail.com",
-  number: "985632322",
-  relation: "Best friend",
-};
-// createUser(credentials);
+    if (!token) return DOMHandler.load(CreateUser);
 
-// deleteContact(76);
-// showContact(318);
-// showContactList();
+    const user = await getUser();
+    STORE.user = user;
+    STORE.fetchContacts();
+    //HomePage
+    // DOMHandler.load(HomePage);
+  } catch (error) {
+    console.log(error);
+    sessionStorage.removeItem(tokenKey);
+    // DOMHandler.load(LoginPage);
+  }
+}
+init();

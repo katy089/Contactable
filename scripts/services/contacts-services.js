@@ -1,7 +1,7 @@
 import apiFetch from "./api-fetch.js";
 
-async function showContactList() {
-  const list = await apiFetch("/contacts");
+function showContactList() {
+  const list = apiFetch("/contacts");
   console.log(list);
   return list;
 }
