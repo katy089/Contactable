@@ -6,8 +6,8 @@ async function showContactList() {
   return list;
 }
 
-async function createContact(data = { name, email, number, relation }) {
-  return await apiFetch("/contacts", { body: data });
+function createContact(data = { name, email, number, relation }) {
+  return apiFetch("/contacts", { body: data });
 }
 
 function showContact(id) {
