@@ -1,32 +1,24 @@
 import DOMHandler from "./scripts/dom-handler.js";
 import { BASE_URI, tokenKey } from "./scripts/config.js";
-import apiFetch from "./scripts/services/api-fetch.js";
-import { login, logout } from "./scripts/services/session-services.js";
-import {CreateUser} from "./scripts/pages/sing-up.js"
-import {
-  createContact,
-  showContactList,
-  showContact,
-  deleteContact,
-  editContact,
-} from "./scripts/services/contacts-services.js";
+
+import { login } from "./scripts/services/session-services.js";
+
 import { createUser } from "./scripts/services/user-services.js";
+import { LoginPage } from "./scripts/pages/login-page.js";
+import STORE from "./scripts/store.js";
+import { ContactPage } from "./scripts/pages/contact-page.js";
 
 async function init() {
   try {
     const token = sessionStorage.getItem(tokenKey);
 
-    if (!token) return DOMHandler.load(CreateUser);
-
-    const user = await getUser();
-    STORE.user = user;
-    STORE.fetchContacts();
+    if (!token) return DOMHandler.load(LoginPage);
     //HomePage
-    // DOMHandler.load(HomePage);
+    DOMHandler.load(ContactPage);
   } catch (error) {
     console.log(error);
     sessionStorage.removeItem(tokenKey);
-    // DOMHandler.load(LoginPage);
+    DOMHandler.load(LoginPage);
   }
 }
 init();

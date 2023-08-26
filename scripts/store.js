@@ -1,14 +1,14 @@
-import {showContactList} from "../scripts/services/contacts-services.js";
+
+import { showContactList } from "./services/contacts-services.js";
 
 async function fetchContacts() {
-   const response = await showContactList() 
-   return response 
-
+  const contacts = await showContactList();
+  return contacts;
 }
 
-export const STORE = {
-    fetchContacts,  
-    user: null,
+const STORE = {
+  user: null,
+  fetchContacts,
+};
 
-
-  };
+export default STORE;
