@@ -1,11 +1,12 @@
-import DOMHandler from "../dom-handler.js"; 
-import {STORE} from "../store.js";  
+import DOMHandler from "../dom-handler.js";
+import STORE from "../store.js";
 import { input } from "../components/input.js";
-import { createUser } from "../services/user-services.js"
+import { createUser } from "../services/user-services.js";
+import { ContactPage } from "./contact-page.js";
 
 function render() {
-    const { CreateUserError } = CreateUser.state; 
-    return `
+  const { CreateUserError } = CreateUser.state;
+  return `
     <main class="section">
       <section class="container">
         <h1 class="heading heading--lg text-center mb-4">Sing Up</h1>
@@ -15,7 +16,7 @@ function render() {
           label: "email",
           id: "email",
           name: "email",
-          placeholder: "kabu@mail.com",  
+          placeholder: "kabu@mail.com",
           type: "email",
           required: true,
         })}
@@ -29,7 +30,11 @@ function render() {
           required: true,
         })}
 
-				${CreateUserError ? `<p class="text-center error-300">${CreateUserError}</p>` : ""}
+				${
+          CreateUserError
+            ? `<p class="text-center error-300">${CreateUserError}</p>`
+            : ""
+        }
 					<button class="button button--primary">Create Account</button>
         </form>
       </section>
@@ -38,43 +43,42 @@ function render() {
 }
 
 function listenerSingUp() {
-	const form = document.querySelector(".js-singup-form");
+  const form = document.querySelector(".js-singup-form");
 
-	form.addEventListener("submit", async (event) => {
+  form.addEventListener("submit", async (event) => {
     try {
       event.preventDefault();
-  
+
       const { email, password } = event.target;
-  
+
       const credentials = {
         email: email.value,
         password: password.value,
       };
-  
+
       const user = await createUser(credentials);
-      console.log (user)
-      STORE.user = user
+      STORE.user = user;
 
       await STORE.fetchContacts();
-  
-      // DOMHandler.load(HomePage);
+
+      DOMHandler.load(ContactPage);
     } catch (error) {
-        CreateUser.state.CreateUserError = error.message;
-        DOMHandler.reload();
+      CreateUser.state.CreateUserError = error.message;
+      DOMHandler.reload();
     }
-	});
+  });
 }
 
 const CreateUser = {
-	toString() {
+  toString() {
     return render();
   },
   addListeners() {
-		listenerSingUp();
+    listenerSingUp();
   },
   state: {
     CreateUserError: null,
   },
-}
+};
 
-export {CreateUser};
+export { CreateUser };
