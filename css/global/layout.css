@@ -11,6 +11,11 @@
   margin: auto;
 }
 
+.container-sm {
+  max-width: 600px;
+  margin: auto;
+}
+
 .container-lg {
   max-width: 1024px;
   margin: auto;

@@ -1,36 +1,28 @@
 import apiFetch from "./api-fetch.js";
 
-function showContactList() {
-  const list = apiFetch("/contacts");
-  console.log(list);
-  return list;
+export function showContact(id) {
+  return apiFetch(`/contacts/${id}"`);
 }
 
-function createContact(data = { name, email, number, relation }) {
-  return apiFetch("/contacts", { body: data });
+export function getContactList() {
+  return apiFetch("/contacts");
 }
 
-function showContact(id) {
-  return apiFetch(`/contacts/${id}`);
+export function editContact(id, newData = { name, number, email, relation }) {
+  return apiFetch(`/contacts/${id}`, { method: "PATCH", body: newData });
 }
 
-function editContact(id, newData = { name, email, number, relation }) {
-  const updatedContact = apiFetch(`/contacts/${id}`, {
-    method: "PATCH",
-    body: newData,
-  });
-  console.log(updatedContact);
-  return updatedContact;
-}
-
-function deleteContact(id) {
+export function deleteContact(id) {
   return apiFetch(`/contacts/${id}`, { method: "DELETE" });
 }
 
-export {
-  createContact,
-  showContactList,
-  showContact,
-  editContact,
-  deleteContact,
-};
+export function createContact(
+  newContact = {
+    nombre,
+    number,
+    email,
+    relation,
+  }
+) {
+  return apiFetch("/contacts", { body: newContact });
+}

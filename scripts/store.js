@@ -1,14 +1,14 @@
-
-import { showContactList } from "./services/contacts-services.js";
+import { getContactList } from "./services/contacts-services.js";
 
 async function fetchContacts() {
-  const contacts = await showContactList();
-  return contacts;
+  const list = await getContactList();
+  return list.map((contact) => this.contacts.push(contact));
 }
 
 const STORE = {
   user: null,
   fetchContacts,
+  contacts: [],
 };
 
 export default STORE;
